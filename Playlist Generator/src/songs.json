@@ -1,0 +1,90 @@
+[
+  {
+    "title": "Blinding Lights",
+    "artist": "The Weeknd",
+    "genre": "Pop",
+    "album": "After Hours",
+    "filePath": "music/blinding_lights.wav",
+    "tags": ["workout", "night", "energetic"]
+  },
+  {
+    "title": "Someone Like You",
+    "artist": "Adele",
+    "genre": "Pop",
+    "album": "21",
+    "filePath": "music/someone_like_you.wav",
+    "tags": ["sad", "study", "calm"]
+  },
+  {
+    "title": "Take Five",
+    "artist": "Dave Brubeck",
+    "genre": "Jazz",
+    "album": "Time Out",
+    "filePath": "music/take_five.wav",
+    "tags": ["study", "focus", "instrumental"]
+  },
+  {
+    "title": "Shape of You",
+    "artist": "Ed Sheeran",
+    "genre": "Pop",
+    "album": "÷",
+    "filePath": "music/shape_of_you.wav",
+    "tags": ["party", "happy", "dance"]
+  },
+  {
+    "title": "Bohemian Rhapsody",
+    "artist": "Queen",
+    "genre": "Rock",
+    "album": "A Night at the Opera",
+    "filePath": "music/bohemian_rhapsody.wav",
+    "tags": ["classic", "epic", "roadtrip"]
+  },
+  {
+    "title": "Believer",
+    "artist": "Imagine Dragons",
+    "genre": "Rock",
+    "album": "Evolve",
+    "filePath": "music/believer.wav",
+    "tags": ["workout", "motivational", "energetic"]
+  },
+  {
+    "title": "Lose Yourself",
+    "artist": "Eminem",
+    "genre": "Hip-Hop",
+    "album": "8 Mile",
+    "filePath": "music/lose_yourself.wav",
+    "tags": ["gym", "focus", "motivational"]
+  },
+  {
+    "title": "Clair de Lune",
+    "artist": "Claude Debussy",
+    "genre": "Classical",
+    "album": "Suite Bergamasque",
+    "filePath": "music/clair_de_lune.wav",
+    "tags": ["study", "calm", "instrumental"]
+  },
+  {
+    "title": "Bad Guy",
+    "artist": "Billie Eilish",
+    "genre": "Pop",
+    "album": "When We All Fall Asleep, Where Do We Go?",
+    "filePath": "music/bad_guy.wav",
+    "tags": ["party", "modern", "energetic"]
+  },
+  {
+    "title": "Smells Like Teen Spirit",
+    "artist": "Nirvana",
+    "genre": "Grunge",
+    "album": "Nevermind",
+    "filePath": "music/smells_like_teen_spirit.wav",
+    "tags": ["rock", "energetic", "classic"]
+  },
+  {
+    "title": "Walking in the Wind",
+    "artist": "One Direction",
+    "genre": "Pop",
+    "album": "Made in the A.M.",
+    "filePath": "music/walking_in_the_wind.wav",
+    "tags": ["calm", "nostalgic", "roadtrip"]
+  }
+]

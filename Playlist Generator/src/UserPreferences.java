@@ -6,13 +6,19 @@ public class UserPreferences {
 	private String artist;
 	private List<String> keywords;
 	
-	public static String getGenre(UserPreferences preference) {
-		return preference.genre;
+	public UserPreferences(String genre, String artist, List<String> keywords) {
+		this.genre = genre;
+		this.artist = artist;
+		this.keywords = keywords;
 	}
-	public static String getArtist(UserPreferences preference) {
-		return preference.artist;
+	
+	public String getGenre() {
+		return genre;
 	}
-	public static List<String> getKeywords(UserPreferences preference) {
-		return preference.keywords;
+	public String getArtist() {
+		return artist;
+	}
+	public List<String> getKeywords() {
+		return keywords;
 	}
 }
