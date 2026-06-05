@@ -23,7 +23,7 @@ public class PlaylistGenerator {
 			result = filterByTags(result, prefs.getKeywords());
 		}
 		
-		Playlist playlist = Playlist();
+		Playlist playlist = new Playlist(result, "");
 		
 		for(Song song : result) {
 			playlist.addSong(song);
