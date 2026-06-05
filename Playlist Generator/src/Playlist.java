@@ -1,9 +1,14 @@
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class Playlist {
 	private List<Song> songs;
 	private String name;
+	
+	public Playlist() {
+		songs = new ArrayList<>(); 
+	}
 	
 	public Playlist(List<Song> songs, String name) {
 		this.songs = songs;
@@ -16,4 +21,14 @@ public class Playlist {
 	public String getName() {
 		return name;
 	}
+	
+	
+	public void addSong(Song newSong) {
+		songs.add(newSong);
+	}
+	
+	public void removeSong(Song remSong) {
+		songs.remove(remSong);
+	}
+
 }
