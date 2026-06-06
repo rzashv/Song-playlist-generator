@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -32,11 +33,23 @@ public class GUIController extends Application {
     private Label statusLabel;
 
     private PlaylistGenerator playlistGenerator;
+    private MusicPlayer musicPlayer;
     private List<Song> allSongs;
     private List<Song> currentPlaylistSongs = new ArrayList<>();
     private Song currentSong;
+    private Playlist currentPlaylist;
 
-    // private MusicPlayer musicPlayer;
+    
+    private static final String BG_DEEP       = "#030008";
+    private static final String BG_PANEL      = "#0a0015";
+    private static final String BG_CARD       = "#0f001f";
+    private static final String NEON_PINK     = "#ff2d78";
+    private static final String NEON_PURPLE   = "#bf00ff";
+    private static final String NEON_CYAN     = "#00f5ff";
+    private static final String NEON_YELLOW   = "#f5ff00";
+    private static final String TEXT_PRIMARY  = "#f0e6ff";
+    private static final String TEXT_DIM      = "#6a4a8a";
+    private static final String BORDER_DIM    = "#2a0a3a";
 
     @Override
     public void start(Stage stage) {
@@ -51,13 +64,13 @@ public class GUIController extends Application {
         HBox header = buildHeader();
 
         VBox root = new VBox(0, header, mainContent);
-        root.setStyle("-fx-background-color: #0d0d0d;");
+        root.setStyle("-fx-background-color: " + BG_DEEP + ";");
         VBox.setVgrow(mainContent, Priority.ALWAYS);
 
         connectEventHandlers();
 
         Scene scene = new Scene(root, 920, 660);
-        scene.setFill(Color.web("#0d0d0d"));
+        scene.setFill(Color.web(BG_DEEP));
 
         stage.setTitle("Music Playlist Generator");
         stage.setScene(scene);
@@ -70,99 +83,98 @@ public class GUIController extends Application {
         SongDatabaseLoader loader = new SongDatabaseLoader();
         allSongs = loader.loadSongs("Playlist Generator/src/songs.json");
         playlistGenerator = new PlaylistGenerator(allSongs);
-        // musicPlayer = new MusicPlayer();
+        musicPlayer = new MusicPlayer();
     }
 
     private HBox buildHeader() {
-        Label appTitle = new Label("♫  MUSIC PLAYLIST GENERATOR");
-        appTitle.setFont(Font.font("Monospace", FontWeight.BOLD, 14));
-        appTitle.setStyle("-fx-text-fill: #ffffff; -fx-letter-spacing: 2px;");
+        Label appTitle = new Label("// MUSIC_PLAYLIST.GEN");
+        appTitle.setFont(Font.font("Monospace", FontWeight.BOLD, 16));
+        appTitle.setStyle("-fx-text-fill: " + NEON_CYAN + ";");
 
-        nowPlayingLabel = new Label("No song playing");
-        nowPlayingLabel.setStyle("-fx-text-fill: #666666; -fx-font-size: 12px;");
+        DropShadow titleGlow = new DropShadow();
+        titleGlow.setColor(Color.web(NEON_CYAN));
+        titleGlow.setRadius(18);
+        titleGlow.setSpread(0.3);
+        appTitle.setEffect(titleGlow);
+
+        nowPlayingLabel = new Label("[ NO SIGNAL ]");
+        nowPlayingLabel.setFont(Font.font("Monospace", FontWeight.BOLD, 11));
+        nowPlayingLabel.setStyle("-fx-text-fill: " + TEXT_DIM + ";");
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         int count = (allSongs != null) ? allSongs.size() : 0;
-        Label dbBadge = new Label(count + " songs in library");
+        Label dbBadge = new Label("▮ " + count + " TRACKS LOADED");
+        dbBadge.setFont(Font.font("Monospace", 10));
         dbBadge.setStyle(
-            "-fx-text-fill: #444444;" +
-            "-fx-font-size: 11px;" +
-            "-fx-background-color: #1a1a1a;" +
-            "-fx-padding: 4 10 4 10;" +
-            "-fx-background-radius: 20;"
+            "-fx-text-fill: " + NEON_PURPLE + ";" +
+            "-fx-background-color: #1a003a;" +
+            "-fx-padding: 5 12 5 12;" +
+            "-fx-background-radius: 2;" +
+            "-fx-border-color: " + NEON_PURPLE + ";" +
+            "-fx-border-width: 1;" +
+            "-fx-border-radius: 2;"
         );
+        DropShadow badgeGlow = new DropShadow();
+        badgeGlow.setColor(Color.web(NEON_PURPLE));
+        badgeGlow.setRadius(10);
+        dbBadge.setEffect(badgeGlow);
 
         HBox header = new HBox(16, appTitle, spacer, dbBadge, nowPlayingLabel);
         header.setAlignment(Pos.CENTER_LEFT);
-        header.setPadding(new Insets(16, 24, 16, 24));
+        header.setPadding(new Insets(14, 24, 14, 24));
         header.setStyle(
-            "-fx-background-color: #141414;" +
-            "-fx-border-color: #252525;" +
-            "-fx-border-width: 0 0 1 0;"
+            "-fx-background-color: " + BG_PANEL + ";" +
+            "-fx-border-color: " + NEON_PINK + ";" +
+            "-fx-border-width: 0 0 2 0;"
         );
+
+        DropShadow headerShadow = new DropShadow();
+        headerShadow.setColor(Color.web(NEON_PINK));
+        headerShadow.setRadius(20);
+        headerShadow.setOffsetY(2);
+        header.setEffect(headerShadow);
+
         return header;
     }
 
     private VBox buildInputPanel() {
-        Label sectionTitle = new Label("PREFERENCES");
-        sectionTitle.setFont(Font.font("Monospace", FontWeight.BOLD, 10));
-        sectionTitle.setStyle("-fx-text-fill: #555555; -fx-letter-spacing: 2px;");
+        Label sectionTitle = new Label("> PREFERENCES_");
+        sectionTitle.setFont(Font.font("Monospace", FontWeight.BOLD, 12));
+        sectionTitle.setStyle("-fx-text-fill: " + NEON_PINK + ";");
+        DropShadow sg = new DropShadow();
+        sg.setColor(Color.web(NEON_PINK)); sg.setRadius(10);
+        sectionTitle.setEffect(sg);
 
-        genreField  = createStyledTextField("e.g.  Pop,  Rock,  Jazz");
-        artistField = createStyledTextField("e.g.  Adele,  Eminem");
-        moodField   = createStyledTextField("e.g.  calm,  energetic");
-        tagsField   = createStyledTextField("e.g.  study,  workout  (comma-separated)");
+        genreField  = createStyledTextField("genre.exe");
+        artistField = createStyledTextField("artist.exe");
+        moodField   = createStyledTextField("mood.exe");
+        tagsField   = createStyledTextField("tags[] comma-separated");
 
-        VBox genreBox  = labeledField("GENRE",  genreField);
-        VBox artistBox = labeledField("ARTIST", artistField);
-        VBox moodBox   = labeledField("MOOD",   moodField);
-        VBox tagsBox   = labeledField("TAGS",   tagsField);
+        VBox genreBox  = labeledField("[ GENRE ]",  genreField);
+        VBox artistBox = labeledField("[ ARTIST ]", artistField);
+        VBox moodBox   = labeledField("[ MOOD ]",   moodField);
+        VBox tagsBox   = labeledField("[ TAGS ]",   tagsField);
 
         Separator sep = new Separator();
-        sep.setStyle("-fx-background-color: #252525;");
+        sep.setStyle("-fx-background-color: " + NEON_PINK + "; -fx-opacity: 0.3;");
 
-        generateButton = new Button("GENERATE PLAYLIST");
+        generateButton = new Button("▶  RUN GENERATOR");
         generateButton.setMaxWidth(Double.MAX_VALUE);
-        generateButton.setStyle(
-            "-fx-background-color: #1db954;" +
-            "-fx-text-fill: #000000;" +
-            "-fx-font-size: 13px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-padding: 13 20 13 20;" +
-            "-fx-cursor: hand;" +
-            "-fx-background-radius: 7;" +
-            "-fx-letter-spacing: 1px;"
-        );
-        generateButton.setOnMouseEntered(e -> generateButton.setStyle(
-            "-fx-background-color: #1ed760;" +
-            "-fx-text-fill: #000000;" +
-            "-fx-font-size: 13px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-padding: 13 20 13 20;" +
-            "-fx-cursor: hand;" +
-            "-fx-background-radius: 7;" +
-            "-fx-letter-spacing: 1px;"
-        ));
-        generateButton.setOnMouseExited(e -> generateButton.setStyle(
-            "-fx-background-color: #1db954;" +
-            "-fx-text-fill: #000000;" +
-            "-fx-font-size: 13px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-padding: 13 20 13 20;" +
-            "-fx-cursor: hand;" +
-            "-fx-background-radius: 7;" +
-            "-fx-letter-spacing: 1px;"
-        ));
+        generateButton.setFont(Font.font("Monospace", FontWeight.BOLD, 13));
+        styleGenBtn(false);
+        generateButton.setOnMouseEntered(e -> styleGenBtn(true));
+        generateButton.setOnMouseExited(e  -> styleGenBtn(false));
 
         statusLabel = new Label(allSongs != null && !allSongs.isEmpty()
-            ? "✓ Library loaded — " + allSongs.size() + " songs ready"
-            : "⚠ songs.json not found — check file path");
+            ? "[ OK ] " + allSongs.size() + " songs indexed"
+            : "[ ERR ] songs.json not found");
+        statusLabel.setFont(Font.font("Monospace", 10));
         statusLabel.setStyle(
             (allSongs != null && !allSongs.isEmpty())
-                ? "-fx-text-fill: #3a7a4a; -fx-font-size: 11px;"
-                : "-fx-text-fill: #884444; -fx-font-size: 11px;"
+                ? "-fx-text-fill: " + NEON_CYAN + ";"
+                : "-fx-text-fill: " + NEON_PINK + ";"
         );
         statusLabel.setWrapText(true);
 
@@ -170,33 +182,47 @@ public class GUIController extends Application {
             sectionTitle, genreBox, artistBox, moodBox, tagsBox,
             sep, generateButton, statusLabel
         );
-        panel.setPadding(new Insets(24, 20, 24, 24));
-        panel.setPrefWidth(285);
-        panel.setMinWidth(255);
-        panel.setStyle("-fx-background-color: #111111;");
+        panel.setPadding(new Insets(22, 18, 22, 22));
+        panel.setPrefWidth(290);
+        panel.setMinWidth(260);
+        panel.setStyle(
+            "-fx-background-color: " + BG_PANEL + ";" +
+            "-fx-border-color: " + NEON_PINK + ";" +
+            "-fx-border-width: 0 2 0 0;"
+        );
         return panel;
     }
 
     private VBox buildPlaylistPanel() {
-        Label sectionTitle = new Label("GENERATED PLAYLIST");
-        sectionTitle.setFont(Font.font("Monospace", FontWeight.BOLD, 10));
-        sectionTitle.setStyle("-fx-text-fill: #555555; -fx-letter-spacing: 2px;");
+        Label sectionTitle = new Label("> PLAYLIST_OUTPUT_");
+        sectionTitle.setFont(Font.font("Monospace", FontWeight.BOLD, 12));
+        sectionTitle.setStyle("-fx-text-fill: " + NEON_CYAN + ";");
+        DropShadow cg = new DropShadow();
+        cg.setColor(Color.web(NEON_CYAN)); cg.setRadius(10);
+        sectionTitle.setEffect(cg);
 
         playlistItems = FXCollections.observableArrayList();
         playlistView  = new ListView<>(playlistItems);
         VBox.setVgrow(playlistView, Priority.ALWAYS);
 
         playlistView.setStyle(
-            "-fx-background-color: #0d0d0d;" +
+            "-fx-background-color: " + BG_CARD + ";" +
             "-fx-background-insets: 0;" +
-            "-fx-border-color: #222222;" +
-            "-fx-border-radius: 8;" +
-            "-fx-background-radius: 8;" +
+            "-fx-border-color: " + NEON_PURPLE + ";" +
+            "-fx-border-radius: 2;" +
+            "-fx-background-radius: 2;" +
             "-fx-padding: 4;"
         );
 
-        Label placeholder = new Label("Set your preferences and click Generate");
-        placeholder.setStyle("-fx-text-fill: #3a3a3a; -fx-font-size: 13px;");
+        DropShadow listGlow = new DropShadow();
+        listGlow.setColor(Color.web(NEON_PURPLE));
+        listGlow.setRadius(15);
+        listGlow.setSpread(0.05);
+        playlistView.setEffect(listGlow);
+
+        Label placeholder = new Label("// awaiting input...");
+        placeholder.setFont(Font.font("Monospace", 13));
+        placeholder.setStyle("-fx-text-fill: " + TEXT_DIM + ";");
         playlistView.setPlaceholder(placeholder);
 
         playlistView.setCellFactory(lv -> new ListCell<String>() {
@@ -210,20 +236,22 @@ public class GUIController extends Application {
                     setText(item);
                     if (isSelected()) {
                         setStyle(
-                            "-fx-text-fill: #ffffff;" +
+                            "-fx-text-fill: " + NEON_YELLOW + ";" +
+                            "-fx-font-family: Monospace;" +
                             "-fx-font-size: 13px;" +
                             "-fx-padding: 10 14 10 14;" +
-                            "-fx-background-color: #1a2e1a;" +
-                            "-fx-border-color: transparent transparent #1db954 transparent;" +
-                            "-fx-border-width: 0 0 1 0;"
+                            "-fx-background-color: #1f003f;" +
+                            "-fx-border-color: " + NEON_PINK + " transparent " + NEON_PINK + " transparent;" +
+                            "-fx-border-width: 1 0 1 0;"
                         );
                     } else {
                         setStyle(
-                            "-fx-text-fill: #cccccc;" +
+                            "-fx-text-fill: " + TEXT_PRIMARY + ";" +
+                            "-fx-font-family: Monospace;" +
                             "-fx-font-size: 13px;" +
                             "-fx-padding: 10 14 10 14;" +
                             "-fx-background-color: transparent;" +
-                            "-fx-border-color: transparent transparent #1e1e1e transparent;" +
+                            "-fx-border-color: transparent transparent " + BORDER_DIM + " transparent;" +
                             "-fx-border-width: 0 0 1 0;"
                         );
                     }
@@ -232,28 +260,28 @@ public class GUIController extends Application {
         });
 
         playlistView.getSelectionModel().selectedIndexProperty().addListener(
-            (obs, oldVal, newVal) -> playlistView.refresh()
+            (obs, o, n) -> playlistView.refresh()
         );
 
         HBox playerControls = buildPlayerControls();
 
         VBox panel = new VBox(14, sectionTitle, playlistView, playerControls);
-        panel.setPadding(new Insets(24, 24, 24, 16));
-        panel.setStyle("-fx-background-color: #0d0d0d;");
+        panel.setPadding(new Insets(22, 22, 22, 16));
+        panel.setStyle("-fx-background-color: " + BG_DEEP + ";");
         VBox.setVgrow(panel, Priority.ALWAYS);
         return panel;
     }
 
     private HBox buildPlayerControls() {
-        playButton  = createPlayerButton("▶   PLAY");
-        pauseButton = createPlayerButton("⏸   PAUSE");
-        skipButton  = createPlayerButton("⏭   SKIP");
+        playButton  = createPlayerButton("▶  PLAY");
+        pauseButton = createPlayerButton("⏸  PAUSE");
+        skipButton  = createPlayerButton("⏭  SKIP");
 
         playButton.setDisable(true);
         pauseButton.setDisable(true);
         skipButton.setDisable(true);
 
-        HBox row = new HBox(10, playButton, pauseButton, skipButton);
+        HBox row = new HBox(12, playButton, pauseButton, skipButton);
         row.setAlignment(Pos.CENTER);
         row.setPadding(new Insets(8, 0, 0, 0));
         return row;
@@ -264,7 +292,6 @@ public class GUIController extends Application {
         playButton.setOnAction(e     -> handlePlay());
         pauseButton.setOnAction(e    -> handlePause());
         skipButton.setOnAction(e     -> handleSkip());
-
         playlistView.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) handlePlay();
         });
@@ -277,13 +304,13 @@ public class GUIController extends Application {
         String tags   = tagsField.getText().trim();
 
         if (genre.isEmpty() && artist.isEmpty() && mood.isEmpty() && tags.isEmpty()) {
-            statusLabel.setText("⚠  Enter at least one preference to search.");
-            statusLabel.setStyle("-fx-text-fill: #c05050; -fx-font-size: 11px;");
+            statusLabel.setText("[ ERR ] input required");
+            statusLabel.setStyle("-fx-text-fill: " + NEON_PINK + "; -fx-font-size: 11px;");
             return;
         }
 
-        statusLabel.setText("Searching library...");
-        statusLabel.setStyle("-fx-text-fill: #666666; -fx-font-size: 11px;");
+        statusLabel.setText("[ ... ] scanning database");
+        statusLabel.setStyle("-fx-text-fill: " + NEON_YELLOW + "; -fx-font-family: Monospace; -fx-font-size: 11px;");
         playlistItems.clear();
         currentPlaylistSongs.clear();
 
@@ -291,119 +318,163 @@ public class GUIController extends Application {
         if (!mood.isEmpty()) keywords.add(mood.trim());
         if (!tags.isEmpty()) {
             for (String tag : tags.split(",")) {
-                String cleaned = tag.trim();
-                if (!cleaned.isEmpty()) keywords.add(cleaned);
+                String c = tag.trim();
+                if (!c.isEmpty()) keywords.add(c);
             }
         }
 
         UserPreferences prefs = new UserPreferences(genre, artist, keywords);
-        Playlist playlist     = playlistGenerator.generate(prefs);
-        List<Song> songs      = playlist.getSongs();
+        currentPlaylist       = playlistGenerator.generate(prefs);
+        List<Song> songs      = currentPlaylist.getSongs();
 
         if (songs.isEmpty()) {
-            statusLabel.setText("No songs matched — try different preferences.");
-            statusLabel.setStyle("-fx-text-fill: #c07030; -fx-font-size: 11px;");
+            statusLabel.setText("[ 0 ] no matches found");
+            statusLabel.setStyle("-fx-text-fill: " + NEON_PINK + "; -fx-font-family: Monospace; -fx-font-size: 11px;");
             return;
         }
 
         for (int i = 0; i < songs.size(); i++) {
-            Song song = songs.get(i);
-            playlistItems.add((i + 1) + ".   " + song.toString());
-            currentPlaylistSongs.add(song);
+            playlistItems.add((i + 1) + ".  " + songs.get(i).toString());
+            currentPlaylistSongs.add(songs.get(i));
         }
 
-        statusLabel.setText("✓  " + songs.size() + " song" + (songs.size() == 1 ? "" : "s") + " found");
-        statusLabel.setStyle("-fx-text-fill: #1db954; -fx-font-size: 11px;");
+        statusLabel.setText("[ OK ] " + songs.size() + " track" + (songs.size() == 1 ? "" : "s") + " found");
+        statusLabel.setStyle("-fx-text-fill: " + NEON_CYAN + "; -fx-font-family: Monospace; -fx-font-size: 11px;");
 
         playButton.setDisable(false);
         pauseButton.setDisable(false);
         skipButton.setDisable(false);
 
         playlistView.getSelectionModel().selectFirst();
+        musicPlayer.setPlaylist(currentPlaylist);
     }
 
     private void handlePlay() {
-        int selectedIndex = playlistView.getSelectionModel().getSelectedIndex();
-
-        if (selectedIndex < 0 && !currentPlaylistSongs.isEmpty()) {
-            selectedIndex = 0;
+        int idx = playlistView.getSelectionModel().getSelectedIndex();
+        if (idx < 0 && !currentPlaylistSongs.isEmpty()) {
+            idx = 0;
             playlistView.getSelectionModel().select(0);
         }
-
-        if (selectedIndex >= 0 && selectedIndex < currentPlaylistSongs.size()) {
-            currentSong = currentPlaylistSongs.get(selectedIndex);
-            nowPlayingLabel.setText("▶   " + currentSong.toString());
-            nowPlayingLabel.setStyle("-fx-text-fill: #1db954; -fx-font-size: 12px;");
-            // musicPlayer.play(currentSong);
+        if (idx >= 0 && idx < currentPlaylistSongs.size()) {
+            currentSong = currentPlaylistSongs.get(idx);
+            nowPlayingLabel.setText("▶  " + currentSong.toString());
+            nowPlayingLabel.setFont(Font.font("Monospace", FontWeight.BOLD, 11));
+            nowPlayingLabel.setStyle("-fx-text-fill: " + NEON_CYAN + ";");
+            DropShadow ng = new DropShadow();
+            ng.setColor(Color.web(NEON_CYAN)); ng.setRadius(12);
+            nowPlayingLabel.setEffect(ng);
+            musicPlayer.play();
         }
     }
 
     private void handlePause() {
-        nowPlayingLabel.setText("⏸   Paused");
-        nowPlayingLabel.setStyle("-fx-text-fill: #888888; -fx-font-size: 12px;");
-        // musicPlayer.pause();
+        nowPlayingLabel.setText("⏸  PAUSED");
+        nowPlayingLabel.setFont(Font.font("Monospace", FontWeight.BOLD, 11));
+        nowPlayingLabel.setStyle("-fx-text-fill: " + NEON_YELLOW + ";");
+        nowPlayingLabel.setEffect(null);
+        musicPlayer.pause();
     }
 
     private void handleSkip() {
+        musicPlayer.skip();
         int current = playlistView.getSelectionModel().getSelectedIndex();
         if (current < 0) current = 0;
         int next = (current + 1) % currentPlaylistSongs.size();
         playlistView.getSelectionModel().select(next);
-        // musicPlayer.skip();
-        handlePlay();
+        currentSong = currentPlaylistSongs.get(next);
+        nowPlayingLabel.setText("▶  " + currentSong.toString());
+        nowPlayingLabel.setFont(Font.font("Monospace", FontWeight.BOLD, 11));
+        nowPlayingLabel.setStyle("-fx-text-fill: " + NEON_CYAN + ";");
+        DropShadow ng = new DropShadow();
+        ng.setColor(Color.web(NEON_CYAN)); ng.setRadius(12);
+        nowPlayingLabel.setEffect(ng);
+    }
+
+    private void styleGenBtn(boolean hover) {
+        generateButton.setFont(Font.font("Monospace", FontWeight.BOLD, 13));
+        generateButton.setStyle(
+            "-fx-background-color: " + (hover ? NEON_PINK : "transparent") + ";" +
+            "-fx-text-fill: " + (hover ? "#000000" : NEON_PINK) + ";" +
+            "-fx-padding: 13 20 13 20;" +
+            "-fx-cursor: hand;" +
+            "-fx-background-radius: 2;" +
+            "-fx-border-color: " + NEON_PINK + ";" +
+            "-fx-border-width: 2;" +
+            "-fx-border-radius: 2;"
+        );
+        if (hover) {
+            DropShadow g = new DropShadow();
+            g.setColor(Color.web(NEON_PINK)); g.setRadius(20); g.setSpread(0.2);
+            generateButton.setEffect(g);
+        } else {
+            generateButton.setEffect(null);
+        }
     }
 
     private TextField createStyledTextField(String placeholder) {
         TextField field = new TextField();
         field.setPromptText(placeholder);
         applyFieldStyle(field, false);
-        field.focusedProperty().addListener((obs, wasF, isF) -> applyFieldStyle(field, isF));
+        field.focusedProperty().addListener((obs, w, isFocused) -> applyFieldStyle(field, isFocused));
         return field;
     }
 
     private void applyFieldStyle(TextField field, boolean focused) {
+        field.setFont(Font.font("Monospace", 12));
         field.setStyle(
-            "-fx-background-color: #181818;" +
-            "-fx-text-fill: #eeeeee;" +
-            "-fx-prompt-text-fill: #444444;" +
+            "-fx-background-color: #0a0018;" +
+            "-fx-text-fill: " + TEXT_PRIMARY + ";" +
+            "-fx-prompt-text-fill: " + TEXT_DIM + ";" +
             "-fx-padding: 9 12 9 12;" +
-            "-fx-background-radius: 6;" +
-            "-fx-border-radius: 6;" +
-            "-fx-font-size: 13px;" +
+            "-fx-background-radius: 2;" +
+            "-fx-border-radius: 2;" +
             (focused
-                ? "-fx-border-color: #1db954; -fx-border-width: 1.5;"
-                : "-fx-border-color: #2a2a2a; -fx-border-width: 1;")
+                ? "-fx-border-color: " + NEON_CYAN + "; -fx-border-width: 1.5;"
+                : "-fx-border-color: " + BORDER_DIM + "; -fx-border-width: 1;")
         );
+        if (focused) {
+            DropShadow g = new DropShadow();
+            g.setColor(Color.web(NEON_CYAN)); g.setRadius(12); g.setSpread(0.1);
+            field.setEffect(g);
+        } else {
+            field.setEffect(null);
+        }
     }
 
     private VBox labeledField(String caption, TextField field) {
         Label lbl = new Label(caption);
-        lbl.setFont(Font.font("Monospace", 9));
-        lbl.setStyle("-fx-text-fill: #484848; -fx-letter-spacing: 1.5px;");
+        lbl.setFont(Font.font("Monospace", FontWeight.BOLD, 9));
+        lbl.setStyle("-fx-text-fill: " + TEXT_DIM + "; -fx-letter-spacing: 1.5px;");
         return new VBox(5, lbl, field);
     }
 
     private Button createPlayerButton(String text) {
         Button btn = new Button(text);
-        btn.setPrefWidth(135);
-        applyPlayerButtonStyle(btn, false);
-        btn.setOnMouseEntered(e -> { if (!btn.isDisabled()) applyPlayerButtonStyle(btn, true);  });
-        btn.setOnMouseExited(e  -> { if (!btn.isDisabled()) applyPlayerButtonStyle(btn, false); });
+        btn.setPrefWidth(140);
+        btn.setFont(Font.font("Monospace", FontWeight.BOLD, 12));
+        applyPlayerStyle(btn, false);
+        btn.setOnMouseEntered(e -> { if (!btn.isDisabled()) applyPlayerStyle(btn, true);  });
+        btn.setOnMouseExited(e  -> { if (!btn.isDisabled()) applyPlayerStyle(btn, false); });
         return btn;
     }
 
-    private void applyPlayerButtonStyle(Button btn, boolean hover) {
+    private void applyPlayerStyle(Button btn, boolean hover) {
         btn.setStyle(
-            "-fx-background-color: " + (hover ? "#1e1e1e" : "#161616") + ";" +
-            "-fx-text-fill: " + (hover ? "#ffffff" : "#aaaaaa") + ";" +
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;" +
+            "-fx-background-color: " + (hover ? "#1a003a" : "transparent") + ";" +
+            "-fx-text-fill: " + (hover ? NEON_PURPLE : TEXT_DIM) + ";" +
             "-fx-padding: 10 15 10 15;" +
-            "-fx-background-radius: 7;" +
+            "-fx-background-radius: 2;" +
             "-fx-cursor: hand;" +
-            "-fx-border-radius: 7;" +
+            "-fx-border-radius: 2;" +
             "-fx-border-width: 1;" +
-            (hover ? "-fx-border-color: #1db954;" : "-fx-border-color: #252525;")
+            "-fx-border-color: " + (hover ? NEON_PURPLE : BORDER_DIM) + ";"
         );
+        if (hover) {
+            DropShadow g = new DropShadow();
+            g.setColor(Color.web(NEON_PURPLE)); g.setRadius(15); g.setSpread(0.1);
+            btn.setEffect(g);
+        } else {
+            btn.setEffect(null);
+        }
     }
 }
