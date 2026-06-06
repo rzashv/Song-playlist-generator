@@ -7,7 +7,8 @@ public class Playlist {
 	private String name;
 	
 	public Playlist() {
-		songs = new ArrayList<>(); 
+		songs = new ArrayList<>();
+		name = "New Playlist";
 	}
 	
 	public Playlist(List<Song> songs, String name) {
@@ -29,6 +30,10 @@ public class Playlist {
 	
 	public void removeSong(Song remSong) {
 		songs.remove(remSong);
+	}
+	
+	public int size() {
+		return songs.size();  // in case we need to use size of the playlist
 	}
 
 }
