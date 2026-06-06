@@ -23,12 +23,7 @@ public class PlaylistGenerator {
 			result = filterByTags(result, prefs.getKeywords());
 		}
 		
-		Playlist playlist = new Playlist(result, "");
-		
-		for(Song song : result) {
-			playlist.addSong(song);
-		}
-		return playlist;
+		return new Playlist(result, "My Playlist");
 	}
 	
 	private List<Song> filterByGenre(List<Song> songs, String genre){
