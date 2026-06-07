@@ -53,8 +53,13 @@ public class PlaylistGenerator {
 		
 		for(Song song : songs) {
 			for(String keyword : tags) {
-				if(song.getTags().contains(keyword)) {
-					filtered.add(song);
+				for(String songTag : song.getTags()) {
+					if(songTag.equalsIgnoreCase(keyword)) {
+						filtered.add(song);
+						break;
+					}
+				}
+				if(filtered.contains(song)) {
 					break;
 				}
 			}

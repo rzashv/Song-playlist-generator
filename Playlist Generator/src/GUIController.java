@@ -431,7 +431,7 @@ public class GUIController extends Application {
 
         List<String> keywords = new ArrayList<>();
         if (!tags.isEmpty()) {
-            for (String tag : tags.split(",")) {
+            for (String tag : tags.split("[,\\s]+")) {
                 String c = tag.trim();
                 if (!c.isEmpty()) keywords.add(c);
             }
