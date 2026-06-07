@@ -1,5 +1,5 @@
 import java.util.List;
-
+import java.util.ArrayList;
 
 public class Song {
 	private String title;
@@ -47,6 +47,9 @@ public class Song {
 		return filePath;
 	}
 	public List<String> getTags() {
+		if (tags == null) {
+			return new ArrayList<>();
+		}
 		return tags;
 	}
 	
