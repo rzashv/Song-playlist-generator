@@ -18,7 +18,6 @@ public class GUIController extends Application {
 
     private TextField genreField;
     private TextField artistField;
-    private TextField moodField;
     private TextField tagsField;
 
     private Button generateButton;
@@ -39,17 +38,16 @@ public class GUIController extends Application {
     private Song currentSong;
     private Playlist currentPlaylist;
 
-    
-    private static final String BG_DEEP       = "#030008";
-    private static final String BG_PANEL      = "#0a0015";
-    private static final String BG_CARD       = "#0f001f";
-    private static final String NEON_PINK     = "#ff2d78";
-    private static final String NEON_PURPLE   = "#bf00ff";
-    private static final String NEON_CYAN     = "#00f5ff";
-    private static final String NEON_YELLOW   = "#f5ff00";
-    private static final String TEXT_PRIMARY  = "#f0e6ff";
-    private static final String TEXT_DIM      = "#6a4a8a";
-    private static final String BORDER_DIM    = "#2a0a3a";
+    private static final String BG_DEEP     = "#030008";
+    private static final String BG_PANEL    = "#0a0015";
+    private static final String BG_CARD     = "#0f001f";
+    private static final String NEON_PINK   = "#ff2d78";
+    private static final String NEON_PURPLE = "#bf00ff";
+    private static final String NEON_CYAN   = "#00f5ff";
+    private static final String NEON_YELLOW = "#f5ff00";
+    private static final String TEXT_PRIMARY = "#f0e6ff";
+    private static final String TEXT_DIM    = "#6a4a8a";
+    private static final String BORDER_DIM  = "#2a0a3a";
 
     @Override
     public void start(Stage stage) {
@@ -69,13 +67,13 @@ public class GUIController extends Application {
 
         connectEventHandlers();
 
-        Scene scene = new Scene(root, 920, 660);
+        Scene scene = new Scene(root, 920, 620);
         scene.setFill(Color.web(BG_DEEP));
 
         stage.setTitle("Music Playlist Generator");
         stage.setScene(scene);
         stage.setMinWidth(780);
-        stage.setMinHeight(560);
+        stage.setMinHeight(520);
         stage.show();
     }
 
@@ -90,11 +88,9 @@ public class GUIController extends Application {
         Label appTitle = new Label("// MUSIC_PLAYLIST.GEN");
         appTitle.setFont(Font.font("Monospace", FontWeight.BOLD, 16));
         appTitle.setStyle("-fx-text-fill: " + NEON_CYAN + ";");
-
         DropShadow titleGlow = new DropShadow();
         titleGlow.setColor(Color.web(NEON_CYAN));
-        titleGlow.setRadius(18);
-        titleGlow.setSpread(0.3);
+        titleGlow.setRadius(18); titleGlow.setSpread(0.3);
         appTitle.setEffect(titleGlow);
 
         nowPlayingLabel = new Label("[ NO SIGNAL ]");
@@ -105,7 +101,7 @@ public class GUIController extends Application {
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         int count = (allSongs != null) ? allSongs.size() : 0;
-        Label dbBadge = new Label("▮ " + count + " TRACKS LOADED");
+        Label dbBadge = new Label("* " + count + " TRACKS LOADED");
         dbBadge.setFont(Font.font("Monospace", 10));
         dbBadge.setStyle(
             "-fx-text-fill: " + NEON_PURPLE + ";" +
@@ -117,8 +113,7 @@ public class GUIController extends Application {
             "-fx-border-radius: 2;"
         );
         DropShadow badgeGlow = new DropShadow();
-        badgeGlow.setColor(Color.web(NEON_PURPLE));
-        badgeGlow.setRadius(10);
+        badgeGlow.setColor(Color.web(NEON_PURPLE)); badgeGlow.setRadius(10);
         dbBadge.setEffect(badgeGlow);
 
         HBox header = new HBox(16, appTitle, spacer, dbBadge, nowPlayingLabel);
@@ -129,13 +124,10 @@ public class GUIController extends Application {
             "-fx-border-color: " + NEON_PINK + ";" +
             "-fx-border-width: 0 0 2 0;"
         );
-
         DropShadow headerShadow = new DropShadow();
         headerShadow.setColor(Color.web(NEON_PINK));
-        headerShadow.setRadius(20);
-        headerShadow.setOffsetY(2);
+        headerShadow.setRadius(20); headerShadow.setOffsetY(2);
         header.setEffect(headerShadow);
-
         return header;
     }
 
@@ -149,18 +141,16 @@ public class GUIController extends Application {
 
         genreField  = createStyledTextField("genre.exe");
         artistField = createStyledTextField("artist.exe");
-        moodField   = createStyledTextField("mood.exe");
         tagsField   = createStyledTextField("tags[] comma-separated");
 
         VBox genreBox  = labeledField("[ GENRE ]",  genreField);
         VBox artistBox = labeledField("[ ARTIST ]", artistField);
-        VBox moodBox   = labeledField("[ MOOD ]",   moodField);
         VBox tagsBox   = labeledField("[ TAGS ]",   tagsField);
 
         Separator sep = new Separator();
         sep.setStyle("-fx-background-color: " + NEON_PINK + "; -fx-opacity: 0.3;");
 
-        generateButton = new Button("▶  RUN GENERATOR");
+        generateButton = new Button("RUN GENERATOR");
         generateButton.setMaxWidth(Double.MAX_VALUE);
         generateButton.setFont(Font.font("Monospace", FontWeight.BOLD, 13));
         styleGenBtn(false);
@@ -179,7 +169,7 @@ public class GUIController extends Application {
         statusLabel.setWrapText(true);
 
         VBox panel = new VBox(14,
-            sectionTitle, genreBox, artistBox, moodBox, tagsBox,
+            sectionTitle, genreBox, artistBox, tagsBox,
             sep, generateButton, statusLabel
         );
         panel.setPadding(new Insets(22, 18, 22, 22));
@@ -204,7 +194,6 @@ public class GUIController extends Application {
         playlistItems = FXCollections.observableArrayList();
         playlistView  = new ListView<>(playlistItems);
         VBox.setVgrow(playlistView, Priority.ALWAYS);
-
         playlistView.setStyle(
             "-fx-background-color: " + BG_CARD + ";" +
             "-fx-background-insets: 0;" +
@@ -213,11 +202,9 @@ public class GUIController extends Application {
             "-fx-background-radius: 2;" +
             "-fx-padding: 4;"
         );
-
         DropShadow listGlow = new DropShadow();
         listGlow.setColor(Color.web(NEON_PURPLE));
-        listGlow.setRadius(15);
-        listGlow.setSpread(0.05);
+        listGlow.setRadius(15); listGlow.setSpread(0.05);
         playlistView.setEffect(listGlow);
 
         Label placeholder = new Label("// awaiting input...");
@@ -273,9 +260,9 @@ public class GUIController extends Application {
     }
 
     private HBox buildPlayerControls() {
-        playButton  = createPlayerButton("▶  PLAY");
-        pauseButton = createPlayerButton("⏸  PAUSE");
-        skipButton  = createPlayerButton("⏭  SKIP");
+    	playButton  = createPlayerButton("PLAY",  "#00ff44");
+    	pauseButton = createPlayerButton("PAUSE", "#ff6600");
+    	skipButton  = createPlayerButton("SKIP",  "#ffd700");
 
         playButton.setDisable(true);
         pauseButton.setDisable(true);
@@ -300,12 +287,11 @@ public class GUIController extends Application {
     private void handleGeneratePlaylist() {
         String genre  = genreField.getText().trim();
         String artist = artistField.getText().trim();
-        String mood   = moodField.getText().trim();
         String tags   = tagsField.getText().trim();
 
-        if (genre.isEmpty() && artist.isEmpty() && mood.isEmpty() && tags.isEmpty()) {
+        if (genre.isEmpty() && artist.isEmpty() && tags.isEmpty()) {
             statusLabel.setText("[ ERR ] input required");
-            statusLabel.setStyle("-fx-text-fill: " + NEON_PINK + "; -fx-font-size: 11px;");
+            statusLabel.setStyle("-fx-text-fill: " + NEON_PINK + "; -fx-font-family: Monospace; -fx-font-size: 11px;");
             return;
         }
 
@@ -315,7 +301,6 @@ public class GUIController extends Application {
         currentPlaylistSongs.clear();
 
         List<String> keywords = new ArrayList<>();
-        if (!mood.isEmpty()) keywords.add(mood.trim());
         if (!tags.isEmpty()) {
             for (String tag : tags.split(",")) {
                 String c = tag.trim();
@@ -357,7 +342,7 @@ public class GUIController extends Application {
         }
         if (idx >= 0 && idx < currentPlaylistSongs.size()) {
             currentSong = currentPlaylistSongs.get(idx);
-            nowPlayingLabel.setText("▶  " + currentSong.toString());
+            nowPlayingLabel.setText("NOW PLAYING: " + currentSong.toString());
             nowPlayingLabel.setFont(Font.font("Monospace", FontWeight.BOLD, 11));
             nowPlayingLabel.setStyle("-fx-text-fill: " + NEON_CYAN + ";");
             DropShadow ng = new DropShadow();
@@ -368,7 +353,7 @@ public class GUIController extends Application {
     }
 
     private void handlePause() {
-        nowPlayingLabel.setText("⏸  PAUSED");
+        nowPlayingLabel.setText("PAUSED");
         nowPlayingLabel.setFont(Font.font("Monospace", FontWeight.BOLD, 11));
         nowPlayingLabel.setStyle("-fx-text-fill: " + NEON_YELLOW + ";");
         nowPlayingLabel.setEffect(null);
@@ -382,7 +367,7 @@ public class GUIController extends Application {
         int next = (current + 1) % currentPlaylistSongs.size();
         playlistView.getSelectionModel().select(next);
         currentSong = currentPlaylistSongs.get(next);
-        nowPlayingLabel.setText("▶  " + currentSong.toString());
+        nowPlayingLabel.setText("NOW PLAYING: " + currentSong.toString());
         nowPlayingLabel.setFont(Font.font("Monospace", FontWeight.BOLD, 11));
         nowPlayingLabel.setStyle("-fx-text-fill: " + NEON_CYAN + ";");
         DropShadow ng = new DropShadow();
@@ -448,33 +433,35 @@ public class GUIController extends Application {
         return new VBox(5, lbl, field);
     }
 
-    private Button createPlayerButton(String text) {
+    private Button createPlayerButton(String text, String color) {
         Button btn = new Button(text);
-        btn.setPrefWidth(140);
-        btn.setFont(Font.font("Monospace", FontWeight.BOLD, 12));
-        applyPlayerStyle(btn, false);
-        btn.setOnMouseEntered(e -> { if (!btn.isDisabled()) applyPlayerStyle(btn, true);  });
-        btn.setOnMouseExited(e  -> { if (!btn.isDisabled()) applyPlayerStyle(btn, false); });
+        btn.setPrefWidth(145);
+        btn.setFont(Font.font("Monospace", FontWeight.BOLD, 13));
+        applyPlayerStyle(btn, color, false);
+        btn.setOnMouseEntered(e -> { if (!btn.isDisabled()) applyPlayerStyle(btn, color, true);  });
+        btn.setOnMouseExited(e  -> { if (!btn.isDisabled()) applyPlayerStyle(btn, color, false); });
         return btn;
     }
 
-    private void applyPlayerStyle(Button btn, boolean hover) {
+    private void applyPlayerStyle(Button btn, String color, boolean hover) {
         btn.setStyle(
-            "-fx-background-color: " + (hover ? "#1a003a" : "transparent") + ";" +
-            "-fx-text-fill: " + (hover ? NEON_PURPLE : TEXT_DIM) + ";" +
-            "-fx-padding: 10 15 10 15;" +
+            "-fx-background-color: " + (hover ? color : "transparent") + ";" +
+            "-fx-text-fill: " + (hover ? "#000000" : color) + ";" +
+            "-fx-padding: 11 15 11 15;" +
             "-fx-background-radius: 2;" +
             "-fx-cursor: hand;" +
             "-fx-border-radius: 2;" +
-            "-fx-border-width: 1;" +
-            "-fx-border-color: " + (hover ? NEON_PURPLE : BORDER_DIM) + ";"
+            "-fx-border-width: 2;" +
+            "-fx-border-color: " + color + ";"
         );
         if (hover) {
             DropShadow g = new DropShadow();
-            g.setColor(Color.web(NEON_PURPLE)); g.setRadius(15); g.setSpread(0.1);
+            g.setColor(Color.web(color)); g.setRadius(18); g.setSpread(0.15);
             btn.setEffect(g);
         } else {
-            btn.setEffect(null);
+            DropShadow g = new DropShadow();
+            g.setColor(Color.web(color)); g.setRadius(8); g.setSpread(0.05);
+            btn.setEffect(g);
         }
     }
 }
