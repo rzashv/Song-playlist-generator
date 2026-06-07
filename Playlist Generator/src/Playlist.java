@@ -32,8 +32,6 @@ public class Playlist {
 		songs.remove(remSong);
 	}
 	
-	public int size() {
-		return songs.size();  // in case we need to use size of the playlist
-	}
+	
 
 }
