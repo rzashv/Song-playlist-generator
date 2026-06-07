@@ -153,8 +153,8 @@ public class GUIController extends Application {
 
     private VBox buildHeader() {
      
-        Label starLeft  = new Label("✦");
-        Label starRight = new Label("✦");
+        Label starLeft  = new Label("+");
+        Label starRight = new Label("+");
         starLeft.setFont(Font.font("SansSerif", 14));
         starRight.setFont(Font.font("SansSerif", 14));
         starLeft.setStyle("-fx-text-fill: #ffffff;");
