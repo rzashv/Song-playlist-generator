@@ -9,6 +9,10 @@ public class Song {
 	private String filePath;
 	private List<String> tags;
 	
+	public Song() {
+		
+	}
+	
 	public Song(String title, String artist, 
 			String genre, String album,
 			String filePath, List<String> tags) {
