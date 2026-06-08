@@ -23,11 +23,10 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Main application class — handles everything related to the UI.
- * Extends JavaFX Application so the framework calls start() automatically on launch.
- *
- * All the actual music logic (filtering, playback) lives in PlaylistGenerator and MusicPlayer.
- * This class just builds the interface, listens for user input, and calls those classes.
+ Main application class — handles everything related to the UI.
+ Extends JavaFX Application so the framework calls start() automatically on launch.
+ All the actual music logic (filtering, playback) lives in PlaylistGenerator and MusicPlayer.
+ This class just builds the interface, listens for user input, and calls those classes.
  */
 public class GUIController extends Application {
 
@@ -107,9 +106,9 @@ public class GUIController extends Application {
     }
 
     /**
-     * Loads the song database and sets up the backend objects.
-     * Wrapped in try-catch so a missing or broken JSON file doesn't crash the app —
-     * it just starts with an empty song list instead.
+     Loads the song database and sets up the backend objects.
+     Wrapped in try-catch so a missing or broken JSON file doesn't crash the app —
+     it just starts with an empty song list instead.
      */
     private void initBackend() {
         try {
@@ -174,8 +173,8 @@ public class GUIController extends Application {
     }
 
     /**
-     * Assembles the root UI layout — header on top, two panels in the middle, footer at the bottom.
-     * connectEventHandlers() is called here after all components exist.
+     Assembles the root UI layout: header on top, two panels in the middle, footer at the bottom.
+     connectEventHandlers() is called here after all components exist.
      */
     private VBox buildUI() {
         VBox inputPanel    = buildInputPanel();
@@ -340,9 +339,9 @@ public class GUIController extends Application {
     }
 
     /**
-     * Builds the right panel that shows the generated playlist and playback controls.
-     * The ListView uses a custom CellFactory so each row displays the title and artist
-     * on separate lines with different styling, rather than just a plain string.
+     Builds the right panel that shows the generated playlist and playback controls.
+     The ListView uses a custom CellFactory so each row displays the title and artist
+     on separate lines with different styling, rather than just a plain string.
      */
     private VBox buildPlaylistPanel() {
         Label sectionTitle = new Label("DISCOVERED TRACKS");
@@ -481,8 +480,8 @@ public class GUIController extends Application {
     }
 
     /**
-     * Reads the input fields, runs the search, and populates the playlist ListView.
-     * Also enables the playback buttons once results are available.
+     Reads the input fields, runs the search, and populates the playlist ListView.
+     Also enables the playback buttons once results are available.
      */
     private void handleGeneratePlaylist() {
         String genre  = genreField.getText().trim();
@@ -547,7 +546,7 @@ public class GUIController extends Application {
         if (idx >= 0 && idx < currentPlaylistSongs.size()) {
             currentSong = currentPlaylistSongs.get(idx);
             musicPlayer.setCurrentSong(currentSong);
-            nowPlayingLabel.setText("Now playing � �  " + currentSong.toString());
+            nowPlayingLabel.setText("Now playing � �  " + currentSong.toString());
             nowPlayingLabel.setStyle("-fx-text-fill: " + GOLD + ";");
             DropShadow ng = new DropShadow();
             ng.setColor(Color.web(GOLD, 0.5)); ng.setRadius(10);
@@ -564,8 +563,8 @@ public class GUIController extends Application {
     }
 
     /**
-     * Moves to the next track. MusicPlayer.skip() only updates its internal index —
-     * we call play() here after the UI is updated so both stay in sync.
+     Moves to the next track. MusicPlayer.skip() only updates its internal index —
+     we call play() here after the UI is updated so both stay in sync.
      */
     private void handleSkip() {
         if (currentPlaylistSongs.isEmpty()) return;
