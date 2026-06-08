@@ -546,7 +546,7 @@ public class GUIController extends Application {
         if (idx >= 0 && idx < currentPlaylistSongs.size()) {
             currentSong = currentPlaylistSongs.get(idx);
             musicPlayer.setCurrentSong(currentSong);
-            nowPlayingLabel.setText("Now playing � �  " + currentSong.toString());
+            nowPlayingLabel.setText("Now playing  —  " + currentSong.toString());
             nowPlayingLabel.setStyle("-fx-text-fill: " + GOLD + ";");
             DropShadow ng = new DropShadow();
             ng.setColor(Color.web(GOLD, 0.5)); ng.setRadius(10);
@@ -576,7 +576,7 @@ public class GUIController extends Application {
         int next = (current + 1) % currentPlaylistSongs.size(); // wraps back to 0 at the end
         playlistView.getSelectionModel().select(next);
         currentSong = currentPlaylistSongs.get(next);
-        nowPlayingLabel.setText("Now playing  —  " + currentSong.toString());
+        nowPlayingLabel.setText("Now playing   —   " + currentSong.toString());
         nowPlayingLabel.setStyle("-fx-text-fill: " + GOLD + ";");
         DropShadow ng = new DropShadow();
         ng.setColor(Color.web(GOLD, 0.5)); ng.setRadius(10);
