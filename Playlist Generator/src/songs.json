@@ -16,14 +16,6 @@
     "tags": ["sad", "study", "calm"]
   },
   {
-    "title": "Take Five",
-    "artist": "Dave Brubeck",
-    "genre": "Jazz",
-    "album": "Time Out",
-    "filePath": "music/take_five.wav",
-    "tags": ["study", "focus", "instrumental"]
-  },
-  {
     "title": "Shape of You",
     "artist": "Ed Sheeran",
     "genre": "Pop",
@@ -64,7 +56,7 @@
     "tags": ["study", "calm", "instrumental"]
   },
   {
-    "title": "Bad Guy",
+    "title": "bad guy",
     "artist": "Billie Eilish",
     "genre": "Pop",
     "album": "When We All Fall Asleep, Where Do We Go?",

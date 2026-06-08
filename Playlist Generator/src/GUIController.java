@@ -678,9 +678,11 @@ public class GUIController extends Application {
     private void handleSkip() {
         // Guard against empty playlist to prevent IndexOutOfBoundsException
         if (currentPlaylistSongs.isEmpty()) return;
+
         
         // Update MusicPlayer's internal index and stop current audio,
         // but do not trigger play() inside MusicPlayer — we control that here
+
         musicPlayer.skip();
         
         int current = playlistView.getSelectionModel().getSelectedIndex();
