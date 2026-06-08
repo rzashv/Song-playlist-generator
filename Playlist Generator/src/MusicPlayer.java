@@ -45,11 +45,11 @@ public class MusicPlayer {
 		
 		playThread = new Thread(() -> {
 			try {
-					File audioFile = new File(currentSong.getFilePath());
-					AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+				File audioFile = new File(currentSong.getFilePath());
+				AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 					
-					clip = AudioSystem.getClip();
-					clip.open(audioStream);
+				clip = AudioSystem.getClip();
+				clip.open(audioStream);
 				clip.start();
 				isPlaying = true;
 			}catch(Exception e) {
