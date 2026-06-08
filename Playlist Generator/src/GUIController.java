@@ -546,7 +546,8 @@ public class GUIController extends Application {
         }
         if (idx >= 0 && idx < currentPlaylistSongs.size()) {
             currentSong = currentPlaylistSongs.get(idx);
-            nowPlayingLabel.setText("Now playing  â€”  " + currentSong.toString());
+            musicPlayer.setCurrentSong(currentSong);
+            nowPlayingLabel.setText("Now playing — ”  " + currentSong.toString());
             nowPlayingLabel.setStyle("-fx-text-fill: " + GOLD + ";");
             DropShadow ng = new DropShadow();
             ng.setColor(Color.web(GOLD, 0.5)); ng.setRadius(10);

@@ -17,6 +17,14 @@ public class MusicPlayer {
 		currentIndex = 0;
 	}
 	
+	public void setCurrentSong(Song song) {
+		currentSong = song;
+		
+		if(currentPlaylist != null && song != null) {
+			currentIndex = currentPlaylist.getSongs().indexOf(song);
+		}
+	}
+	
 	public void setPlaylist(Playlist playlist) {
 		stop();
 		
@@ -33,19 +41,15 @@ public class MusicPlayer {
 			return;
 		}
 		
-		if(playThread != null && playThread.isAlive()) {
-			stop();
-		}
+		stop();
 		
 		playThread = new Thread(() -> {
 			try {
-				if(clip == null) {
 					File audioFile = new File(currentSong.getFilePath());
 					AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 					
 					clip = AudioSystem.getClip();
 					clip.open(audioStream);
-				}
 				clip.start();
 				isPlaying = true;
 			}catch(Exception e) {
