@@ -33,6 +33,10 @@ public class MusicPlayer {
 			return;
 		}
 		
+		if(playThread != null && playThread.isAlive()) {
+			stop();
+		}
+		
 		playThread = new Thread(() -> {
 			try {
 				if(clip == null) {
@@ -48,6 +52,8 @@ public class MusicPlayer {
 				e.printStackTrace();
 			}
 		});
+		
+		playThread.setDaemon(true); 
 		playThread.start();
 	}
 	
@@ -68,21 +74,21 @@ public class MusicPlayer {
 	}
 	
 	public void skip() {
-		if(currentPlaylist == null || currentPlaylist.getSongs().isEmpty()) {
-			return;
-		}
-		
-		stop();
-		
-		currentIndex++;
-		
-		if(currentIndex >= currentPlaylist.getSongs().size()) {
-			currentIndex = 0;
-		}
-		
-		currentSong = currentPlaylist.getSongs().get(currentIndex);
-		
-		play();
+	    if(currentPlaylist == null || currentPlaylist.getSongs().isEmpty()) {
+	        return;
+	    }
+	    
+	    stop();
+	    
+	    currentIndex++;
+	    
+	   
+	    if(currentIndex >= currentPlaylist.getSongs().size()) {
+	        currentIndex = 0;
+	    }
+	    
+	    currentSong = currentPlaylist.getSongs().get(currentIndex);
+	    
 	}
 	
 	public Song getCurrentSong() {
