@@ -244,7 +244,7 @@ public class GUIController extends Application {
     // Footer shows what's currently playing on the left and the group name on the right.
     private HBox buildFooter() {
         nowPlayingLabel = new Label("No track selected");
-        nowPlayingLabel.setFont(Font.font("SansSerif", FontWeight.BOLD, 11));
+        nowPlayingLabel.setFont(Font.font("Arial Unicode MS", FontWeight.BOLD, 11));
         nowPlayingLabel.setStyle("-fx-text-fill: " + TEXT_MUTED + ";");
 
         // Region with ALWAYS priority pushes the tagline to the far right
