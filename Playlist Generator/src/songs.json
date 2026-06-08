@@ -16,14 +16,6 @@
     "tags": ["sad", "study", "calm"]
   },
   {
-    "title": "Take Five",
-    "artist": "Dave Brubeck",
-    "genre": "Jazz",
-    "album": "Time Out",
-    "filePath": "music/take_five.wav",
-    "tags": ["study", "focus", "instrumental"]
-  },
-  {
     "title": "Shape of You",
     "artist": "Ed Sheeran",
     "genre": "Pop",
